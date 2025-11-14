@@ -115,7 +115,11 @@ No installation needed! Simply browse the `guide/` directory in order.
 ### Running Interactive Notebooks
 
 #### Option 1: Google Colab (Easiest - No Installation!)
-Click the Colab badge at the top of this README or use this direct link:
+
+**Note**: For Colab to work, this repository must be **public**. If it's currently private:
+- Go to [Settings](https://github.com/shiong-tan/etf-flash-crash-2015/settings) → Danger Zone → Change visibility → Make public
+
+Click the Colab badge to open the notebook:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shiong-tan/etf-flash-crash-2015/blob/master/notebooks/01-understanding-the-crash.ipynb)
 
@@ -125,7 +129,9 @@ The notebook automatically:
 - ✅ Sets up the environment
 - ✅ Loads data and modules
 
-Just click "Run all" and start learning!
+Just click "Runtime → Run all" and start learning!
+
+**For private repositories**: The setup cell provides instructions for authenticating with GitHub or manually uploading files.
 
 #### Option 2: Local Jupyter Environment
 
