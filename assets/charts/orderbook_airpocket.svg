@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450">
+  <!-- Title -->
+  <text x="350" y="25" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">
+    Order Book "Air Pocket" - August 24, 2015
+  </text>
+
+  <!-- Column headers -->
+  <rect x="50" y="50" width="280" height="40" fill="#5cb85c" stroke="#333" stroke-width="2"/>
+  <text x="190" y="75" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">BIDS (Buy Orders)</text>
+
+  <rect x="370" y="50" width="280" height="40" fill="#d9534f" stroke="#333" stroke-width="2"/>
+  <text x="510" y="75" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">ASKS (Sell Orders)</text>
+
+  <!-- Bid side -->
+  <rect x="50" y="90" width="280" height="35" fill="#d4edda" stroke="#333" stroke-width="1"/>
+  <text x="80" y="112" font-size="12" font-weight="bold">$100.00</text>
+  <text x="280" y="112" text-anchor="end" font-size="12">500 shares</text>
+
+  <rect x="50" y="125" width="280" height="35" fill="#d4edda" stroke="#333" stroke-width="1"/>
+  <text x="80" y="147" font-size="12" font-weight="bold">$99.00</text>
+  <text x="280" y="147" text-anchor="end" font-size="12">300 shares</text>
+
+  <!-- AIR POCKET -->
+  <rect x="50" y="160" width="600" height="120" fill="#fff9e6" stroke="#f0ad4e" stroke-width="3" stroke-dasharray="5,5"/>
+  <text x="350" y="200" text-anchor="middle" font-size="16" fill="#f0ad4e" font-weight="bold">AIR POCKET</text>
+  <text x="350" y="220" text-anchor="middle" font-size="13" fill="#666">(No bids between $99 and $90)</text>
+  <text x="350" y="240" text-anchor="middle" font-size="12" fill="#d9534f">Market sell order falls through gap</text>
+  <text x="350" y="258" text-anchor="middle" font-size="12" fill="#d9534f">▼ Executes far below expected price ▼</text>
+
+  <rect x="50" y="280" width="280" height="35" fill="#d4edda" stroke="#333" stroke-width="1"/>
+  <text x="80" y="302" font-size="12" font-weight="bold">$90.00</text>
+  <text x="280" y="302" text-anchor="end" font-size="12">400 shares</text>
+
+  <rect x="50" y="315" width="280" height="35" fill="#d4edda" stroke="#333" stroke-width="1"/>
+  <text x="80" y="337" font-size="12" font-weight="bold">$87.00</text>
+  <text x="280" y="337" text-anchor="end" font-size="12">200 shares</text>
+
+  <!-- Ask side -->
+  <rect x="370" y="90" width="280" height="35" fill="#f8d7da" stroke="#333" stroke-width="1"/>
+  <text x="400" y="112" font-size="12" font-weight="bold">$101.00</text>
+  <text x="620" y="112" text-anchor="end" font-size="12">500 shares</text>
+
+  <rect x="370" y="125" width="280" height="35" fill="#f8d7da" stroke="#333" stroke-width="1"/>
+  <text x="400" y="147" font-size="12" font-weight="bold">$102.00</text>
+  <text x="620" y="147" text-anchor="end" font-size="12">300 shares</text>
+
+  <!-- Example scenario box -->
+  <rect x="50" y="370" width="600" height="65" fill="#d9edf7" stroke="#333" stroke-width="2" rx="5"/>
+  <text x="350" y="390" text-anchor="middle" font-size="13" font-weight="bold">August 24 Example: IUSV Stop-Loss</text>
+  <text x="350" y="407" text-anchor="middle" font-size="11">Stop triggered at $108.69, converts to market order</text>
+  <text x="350" y="422" text-anchor="middle" font-size="11">Bids at $100, $99 exhausted → Falls to $90, $87 bids</text>
+  <text x="350" y="437" text-anchor="middle" font-size="11" fill="#d9534f" font-weight="bold">Execution: $87.32 (20% worse than stop trigger)</text>
+
+  <!-- Arrow showing market order fall -->
+  <path d="M 350 100 L 350 130 M 350 150 L 350 285"
+        stroke="#d9534f" stroke-width="4" fill="none" marker-end="url(#arrowhead)"
+        stroke-dasharray="10,5"/>
+
+  <!-- Arrow definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#d9534f"/>
+    </marker>
+  </defs>
+</svg>

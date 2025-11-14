@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <!-- Title -->
+  <text x="400" y="25" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">
+    RSP: ETF Price vs iNAV on August 24, 2015
+  </text>
+
+  <!-- Axes -->
+  <line x1="80" y1="350" x2="750" y2="350" stroke="#333" stroke-width="2"/>
+  <line x1="80" y1="50" x2="80" y2="350" stroke="#333" stroke-width="2"/>
+
+  <!-- Y-axis labels -->
+  <text x="70" y="55" text-anchor="end" font-size="12">$80</text>
+  <text x="70" y="125" text-anchor="end" font-size="12">$70</text>
+  <text x="70" y="195" text-anchor="end" font-size="12">$60</text>
+  <text x="70" y="265" text-anchor="end" font-size="12">$50</text>
+  <text x="70" y="335" text-anchor="end" font-size="12">$40</text>
+  <text x="40" y="200" text-anchor="middle" font-size="14" transform="rotate(-90 40 200)">Price ($)</text>
+
+  <!-- X-axis labels -->
+  <text x="130" y="370" text-anchor="middle" font-size="11">9:30</text>
+  <text x="240" y="370" text-anchor="middle" font-size="11">9:35</text>
+  <text x="350" y="370" text-anchor="middle" font-size="11">9:40</text>
+  <text x="460" y="370" text-anchor="middle" font-size="11">9:45</text>
+  <text x="570" y="370" text-anchor="middle" font-size="11">9:50</text>
+  <text x="680" y="370" text-anchor="middle" font-size="11">10:00</text>
+  <text x="400" y="390" text-anchor="middle" font-size="14">Time (ET)</text>
+
+  <!-- Grid lines -->
+  <line x1="80" y1="120" x2="750" y2="120" stroke="#ddd" stroke-width="1"/>
+  <line x1="80" y1="190" x2="750" y2="190" stroke="#ddd" stroke-width="1"/>
+  <line x1="80" y1="260" x2="750" y2="260" stroke="#ddd" stroke-width="1"/>
+
+  <!-- Shaded dislocation area -->
+  <polygon points="130,130 240,310 350,260 460,170 570,145 680,130 680,130 570,145 460,170 350,260 240,310 130,130"
+           fill="#ffcccc" opacity="0.5"/>
+
+  <!-- iNAV line (stable at $71) -->
+  <line x1="130" y1="130" x2="680" y2="130" stroke="#A23B72" stroke-width="3" stroke-dasharray="8,4"/>
+
+  <!-- ETF Price line (crashes then recovers) -->
+  <path d="M 130 130 L 160 200 L 200 270 L 240 310 L 280 285 L 320 270 L 350 260 L 390 220 L 430 180 L 460 170 L 500 155 L 540 145 L 570 140 L 620 135 L 680 130"
+        stroke="#2E86AB" stroke-width="3" fill="none"/>
+
+  <!-- Low point annotation -->
+  <circle cx="240" cy="310" r="5" fill="#ff0000"/>
+  <line x1="240" y1="310" x2="290" y2="280" stroke="#333" stroke-width="1"/>
+  <text x="295" y="275" font-size="11" fill="#ff0000" font-weight="bold">Low: $43.77</text>
+  <text x="295" y="288" font-size="10" fill="#666">(43% below close)</text>
+
+  <!-- iNAV annotation -->
+  <text x="690" y="125" font-size="11" fill="#A23B72" font-weight="bold">iNAV: $71</text>
+  <text x="690" y="138" font-size="10" fill="#666">(stale data)</text>
+
+  <!-- Initial price annotation -->
+  <text x="90" y="125" font-size="10" fill="#666">Close: ~$76</text>
+
+  <!-- Legend -->
+  <line x1="550" y1="70" x2="590" y2="70" stroke="#2E86AB" stroke-width="3"/>
+  <text x="595" y="75" font-size="12">ETF Market Price</text>
+
+  <line x1="550" y1="90" x2="590" y2="90" stroke="#A23B72" stroke-width="3" stroke-dasharray="8,4"/>
+  <text x="595" y="95" font-size="12">iNAV (Fair Value)</text>
+
+  <!-- Key insight box -->
+  <rect x="520" y="300" width="220" height="35" fill="#fff9e6" stroke="#f0ad4e" stroke-width="2" rx="5"/>
+  <text x="630" y="318" text-anchor="middle" font-size="11" font-weight="bold">38% Discount to Fair Value</text>
+  <text x="630" y="330" text-anchor="middle" font-size="9">at low point ($43.77 vs $71 iNAV)</text>
+</svg>

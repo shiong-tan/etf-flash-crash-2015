@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500">
+  <!-- Title -->
+  <text x="300" y="25" text-anchor="middle" font-size="18" font-weight="bold" fill="#333">
+    LULD Circuit Breaker Flowchart
+  </text>
+
+  <!-- Start -->
+  <ellipse cx="300" cy="60" rx="80" ry="30" fill="#5cb85c" stroke="#333" stroke-width="2"/>
+  <text x="300" y="68" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">Normal Trading</text>
+
+  <!-- Arrow down -->
+  <line x1="300" y1="90" x2="300" y2="120" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Condition box -->
+  <rect x="200" y="120" width="200" height="60" fill="#f0ad4e" stroke="#333" stroke-width="2" rx="5"/>
+  <text x="300" y="140" text-anchor="middle" font-size="12" font-weight="bold">Price Hits Band Edge</text>
+  <text x="300" y="157" text-anchor="middle" font-size="11">(±5% regular trading,</text>
+  <text x="300" y="172" text-anchor="middle" font-size="11">±10% open/close)</text>
+
+  <!-- Arrow down -->
+  <line x1="300" y1="180" x2="300" y2="210" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Decision diamond -->
+  <polygon points="300,210 380,250 300,290 220,250" fill="#d9edf7" stroke="#333" stroke-width="2"/>
+  <text x="300" y="245" text-anchor="middle" font-size="11">Remains at</text>
+  <text x="300" y="260" text-anchor="middle" font-size="11">band >15 sec?</text>
+
+  <!-- No arrow (back to normal) -->
+  <line x1="380" y1="250" x2="450" y2="250" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="415" y="245" text-anchor="middle" font-size="11" fill="#5cb85c">No</text>
+  <line x1="450" y1="250" x2="450" y2="60" stroke="#333" stroke-width="2"/>
+  <line x1="450" y1="60" x2="380" y2="60" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Yes arrow -->
+  <line x1="300" y1="290" x2="300" y2="320" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="315" y="310" font-size="11" fill="#d9534f">Yes</text>
+
+  <!-- Limit State -->
+  <rect x="200" y="320" width="200" height="50" fill="#fcf8e3" stroke="#333" stroke-width="2" rx="5"/>
+  <text x="300" y="340" text-anchor="middle" font-size="12" font-weight="bold">Limit State</text>
+  <text x="300" y="357" text-anchor="middle" font-size="11">(15-second window)</text>
+
+  <!-- Arrow down -->
+  <line x1="300" y1="370" x2="300" y2="400" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Trading Halt -->
+  <rect x="200" y="400" width="200" height="50" fill="#d9534f" stroke="#333" stroke-width="2" rx="5"/>
+  <text x="300" y="420" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">5-Minute Trading Halt</text>
+  <text x="300" y="437" text-anchor="middle" font-size="11" fill="#fff">(All exchanges)</text>
+
+  <!-- Arrow down -->
+  <line x1="300" y1="450" x2="300" y2="480" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Reopening box -->
+  <ellipse cx="300" cy="490" rx="90" ry="25" fill="#5bc0de" stroke="#333" stroke-width="2"/>
+  <text x="300" y="495" text-anchor="middle" font-size="12" fill="#fff" font-weight="bold">Reopening Auction</text>
+
+  <!-- Loop back -->
+  <path d="M 390 490 Q 480 490 480 400 L 480 250 L 420 250"
+        stroke="#d9534f" stroke-width="2" fill="none" marker-end="url(#arrowhead2)"/>
+  <text x="500" y="380" font-size="10" fill="#d9534f">If hits band</text>
+  <text x="500" y="393" font-size="10" fill="#d9534f">again, repeat</text>
+
+  <!-- Arrow definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#333"/>
+    </marker>
+    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#d9534f"/>
+    </marker>
+  </defs>
+
+  <!-- Key insight -->
+  <rect x="20" y="100" width="150" height="80" fill="#fff" stroke="#333" stroke-width="1" rx="3"/>
+  <text x="95" y="117" text-anchor="middle" font-size="10" font-weight="bold">Aug 24, 2015:</text>
+  <text x="95" y="133" text-anchor="middle" font-size="9">• RSP: 10 halts in 1 hour</text>
+  <text x="95" y="147" text-anchor="middle" font-size="9">• Only 2.29 min trading</text>
+  <text x="95" y="161" text-anchor="middle" font-size="9">• 15-30 sec windows</text>
+  <text x="95" y="175" text-anchor="middle" font-size="9">• 1,278 total halts</text>
+</svg>
