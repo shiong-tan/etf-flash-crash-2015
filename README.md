@@ -1,6 +1,10 @@
 # ETF Flash Crash 2015 – Educational Repository
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shiong-tan/etf-flash-crash-2015/blob/master/notebooks/01-understanding-the-crash.ipynb)
+
 A comprehensive learning resource explaining the ETF Flash Crash of August 24, 2015, when exchange-traded funds experienced catastrophic price dislocations despite functioning markets for their underlying securities.
+
+**Try it now in Google Colab** - Click the badge above to open the interactive notebook directly in your browser (no installation required!)
 
 ---
 
@@ -94,11 +98,12 @@ Examine the response and ongoing vulnerabilities.
 ### 6. **Hands-On: Interactive Exercises** (`notebooks/`)
 Apply concepts through interactive Jupyter notebooks.
 
-- **01-etf-pricing-basics.ipynb** – Calculate NAV/iNAV, creation arbitrage
-- **02-order-book-simulation.ipynb** – Simulate air pockets, stop-loss cascades
-- **03-luld-calculator.ipynb** – Calculate LULD bands, model halt triggers
-- **04-rsp-case-analysis.ipynb** – Interactive analysis of RSP dislocation
-- **05-volatility-patterns.ipynb** – Analyze August 24 volatility anomalies
+- **[01-understanding-the-crash.ipynb](notebooks/01-understanding-the-crash.ipynb)** – Comprehensive interactive walkthrough
+  - ETF pricing fundamentals (NAV vs iNAV)
+  - Order book air pockets and stop-loss cascades
+  - Real data analysis of RSP crash
+  - LULD circuit breaker mechanics
+  - **[▶️ Open in Colab](https://colab.research.google.com/github/shiong-tan/etf-flash-crash-2015/blob/master/notebooks/01-understanding-the-crash.ipynb)** (no installation required!)
 
 ---
 
@@ -109,23 +114,40 @@ No installation needed! Simply browse the `guide/` directory in order.
 
 ### Running Interactive Notebooks
 
+#### Option 1: Google Colab (Easiest - No Installation!)
+Click the Colab badge at the top of this README or use this direct link:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shiong-tan/etf-flash-crash-2015/blob/master/notebooks/01-understanding-the-crash.ipynb)
+
+The notebook automatically:
+- ✅ Clones the repository
+- ✅ Installs all dependencies
+- ✅ Sets up the environment
+- ✅ Loads data and modules
+
+Just click "Run all" and start learning!
+
+#### Option 2: Local Jupyter Environment
+
 **Requirements:**
 - Python 3.8 or higher
 - Jupyter Notebook
-- Libraries: numpy, pandas, matplotlib, seaborn, plotly
+- Libraries: numpy, pandas, matplotlib, seaborn
 
 **Setup:**
 ```bash
 # Clone the repository
-git clone [repository-url]
+git clone https://github.com/shiong-tan/etf-flash-crash-2015.git
 cd etf-flash-crash-2015
 
 # Install dependencies
 pip install -r requirements.txt
 
 # Launch Jupyter
-jupyter notebook notebooks/
+jupyter notebook notebooks/01-understanding-the-crash.ipynb
 ```
+
+The setup cell automatically detects your environment and configures paths accordingly.
 
 ---
 
