@@ -116,22 +116,24 @@ No installation needed! Simply browse the `guide/` directory in order.
 
 #### Option 1: Google Colab (Easiest - No Installation!)
 
-**Note**: For Colab to work, this repository must be **public**. If it's currently private:
-- Go to [Settings](https://github.com/shiong-tan/etf-flash-crash-2015/settings) → Danger Zone → Change visibility → Make public
-
-Click the Colab badge to open the notebook:
+Click the badge below to open the notebook directly in your browser—no installation required!
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shiong-tan/etf-flash-crash-2015/blob/master/notebooks/01-understanding-the-crash.ipynb)
 
-The notebook automatically:
+**What happens automatically:**
 - ✅ Clones the repository
-- ✅ Installs all dependencies
-- ✅ Sets up the environment
-- ✅ Loads data and modules
+- ✅ Installs all dependencies (pandas, numpy, matplotlib, seaborn)
+- ✅ Sets up the correct paths
+- ✅ Imports all modules
+- ✅ Ready to run in 30 seconds!
 
-Just click "Runtime → Run all" and start learning!
+**How to use:**
+1. Click the badge above
+2. In Colab, click **"Runtime → Run all"**
+3. Watch the setup cell configure everything
+4. Explore the interactive examples!
 
-**For private repositories**: The setup cell provides instructions for authenticating with GitHub or manually uploading files.
+No Google account required to view, but you'll need one to run cells and experiment.
 
 #### Option 2: Local Jupyter Environment
 
