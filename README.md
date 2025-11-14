@@ -98,12 +98,20 @@ Examine the response and ongoing vulnerabilities.
 ### 6. **Hands-On: Interactive Exercises** (`notebooks/`)
 Apply concepts through interactive Jupyter notebooks.
 
-- **[01-understanding-the-crash.ipynb](notebooks/01-understanding-the-crash.ipynb)** – Comprehensive interactive walkthrough
+- **[01-understanding-the-crash.ipynb](notebooks/01-understanding-the-crash.ipynb)** – Conceptual walkthrough
   - ETF pricing fundamentals (NAV vs iNAV)
   - Order book air pockets and stop-loss cascades
-  - Real data analysis of RSP crash
+  - Educational simulations with synthetic data
   - LULD circuit breaker mechanics
   - **[▶️ Open in Colab](https://colab.research.google.com/github/shiong-tan/etf-flash-crash-2015/blob/master/notebooks/01-understanding-the-crash.ipynb)** (no installation required!)
+
+- **[02-real-market-data-analysis.ipynb](notebooks/02-real-market-data-analysis.ipynb)** – Data-driven investigation ⭐ NEW!
+  - **Real Aug 24, 2015 prices** from Yahoo Finance
+  - Validate the event with actual historical data
+  - Analyze recent intraday volatility patterns
+  - Compare to COVID crash and SVB crisis
+  - Interactive exploration tools
+  - **[▶️ Open in Colab](https://colab.research.google.com/github/shiong-tan/etf-flash-crash-2015/blob/master/notebooks/02-real-market-data-analysis.ipynb)** (no installation required!)
 
 ---
 
@@ -174,12 +182,8 @@ etf-flash-crash-2015/
 │   └── 05-aftermath/                  # Reforms and lasting lessons
 │
 ├── notebooks/                         # Interactive Jupyter exercises
-│   ├── 01-etf-pricing-basics.ipynb
-│   ├── 02-order-book-simulation.ipynb
-│   ├── 03-luld-calculator.ipynb
-│   ├── 04-rsp-case-analysis.ipynb
-│   ├── 05-volatility-patterns.ipynb
-│   └── solutions/                     # Exercise solutions
+│   ├── 01-understanding-the-crash.ipynb      # Conceptual simulations
+│   └── 02-real-market-data-analysis.ipynb    # Real data analysis (yfinance)
 │
 ├── assets/                            # Visual aids and data
 │   ├── charts/                        # SVG diagrams
