@@ -85,8 +85,9 @@ class TestCalculateLULDBands:
         """Test stock below $0.75 using $0.15 flat band (when larger than 75%)."""
         # At $0.10, 75% band = $0.075, which is < $0.15, so use $0.15
         # $0.15 as percentage of $0.10 = 150%
+        # CRITICAL FIX: Lower band now floored at $0.00 (cannot be negative)
         lower, upper, pct = calculate_luld_bands(0.10, tier=1, time_of_day='normal')
-        assert lower == pytest.approx(-0.05)  # 0.10 - 0.15
+        assert lower == pytest.approx(0.00)   # Floored at zero (0.10 - 0.15 = -0.05 → 0.00)
         assert upper == pytest.approx(0.25)   # 0.10 + 0.15
         assert pct == pytest.approx(1.5)      # 150%
 
@@ -162,9 +163,11 @@ class TestGetTimeOfDayCategory:
         assert get_time_of_day_category(dt) == 'closing'
 
     def test_closing_period_end(self):
-        """Test 4:00 PM (end of closing period)."""
+        """Test 4:00 PM (market close - exclusive end of closing period)."""
         dt = datetime(2015, 8, 24, 16, 0, 0)
-        assert get_time_of_day_category(dt) == 'closing'
+        # FIX: 4:00 PM exact is when market CLOSES, not in closing period
+        # Closing period is 3:35-4:00 PM (exclusive end)
+        assert get_time_of_day_category(dt) == 'normal'
 
 
 class TestAnalyzeFlashCrashHalt:
@@ -322,3 +325,160 @@ class TestHistoricalAccuracy:
 
         # Verify bands are exactly double
         assert opening[2] == normal[2] * 2
+
+
+class TestPennyStockNonNegativity:
+    """Test non-negativity constraint for very low-priced stocks."""
+
+    def test_penny_stock_no_negative_bands(self):
+        """Ensure no negative bands for any price (CRITICAL FIX validation)."""
+        test_prices = [0.01, 0.05, 0.10, 0.15, 0.20, 0.50, 0.74]
+        for price in test_prices:
+            lower, upper, pct = calculate_luld_bands(price, tier=1)
+            assert lower >= 0.00, f"Negative lower band at price ${price}"
+            assert upper > lower, f"Upper band not greater than lower at ${price}"
+
+    def test_very_low_price_01_cents(self):
+        """Test extremely low price (1 cent)."""
+        lower, upper, pct = calculate_luld_bands(0.01, tier=1, time_of_day='normal')
+        assert lower == pytest.approx(0.00)  # Floored at zero
+        assert upper > 0.01  # Upper band should be positive
+        assert pct > 0  # Band percentage should be positive
+
+    def test_very_low_price_05_cents(self):
+        """Test very low price (5 cents)."""
+        lower, upper, pct = calculate_luld_bands(0.05, tier=1, time_of_day='normal')
+        assert lower == pytest.approx(0.00)  # Floored at zero
+        assert upper == pytest.approx(0.20)  # 0.05 + 0.15
+        assert pct == pytest.approx(3.0)  # $0.15/$0.05 = 300%
+
+    def test_low_price_20_cents(self):
+        """Test transition point (20 cents) where bands start being positive."""
+        lower, upper, pct = calculate_luld_bands(0.20, tier=1, time_of_day='normal')
+        assert lower == pytest.approx(0.05)  # 0.20 - 0.15 = 0.05 (barely positive)
+        assert upper == pytest.approx(0.35)  # 0.20 + 0.15
+        assert pct == pytest.approx(0.75)  # $0.15/$0.20 = 75%
+
+
+class TestBoundaryConditions:
+    """Test boundary conditions and edge cases."""
+
+    def test_boundary_945_discontinuity(self):
+        """Test band discontinuity at 9:45 AM boundary."""
+        ref_price = 100.00
+
+        # 9:44:59 - still opening period
+        dt_opening = datetime(2015, 8, 24, 9, 44, 59)
+        lower_open, upper_open, pct_open = calculate_luld_bands(
+            ref_price, tier=1, time_of_day=get_time_of_day_category(dt_opening)
+        )
+        assert pct_open == 0.10  # Doubled
+
+        # 9:45:00 - normal period starts
+        dt_normal = datetime(2015, 8, 24, 9, 45, 0)
+        lower_norm, upper_norm, pct_norm = calculate_luld_bands(
+            ref_price, tier=1, time_of_day=get_time_of_day_category(dt_normal)
+        )
+        assert pct_norm == 0.05  # Standard
+
+        # Verify discontinuity
+        assert pct_open == 2 * pct_norm
+
+    def test_boundary_closing_period_exclusive_end(self):
+        """Test closing period exclusive end at 4:00 PM."""
+        # 3:59:59 - still closing period
+        dt_closing = datetime(2015, 8, 24, 15, 59, 59)
+        category_closing = get_time_of_day_category(dt_closing)
+        assert category_closing == 'closing'
+
+        # 4:00:00 - market closed, but if categorized should be normal
+        # (though no trades occur at exactly 4:00 PM)
+        dt_market_close = datetime(2015, 8, 24, 16, 0, 0)
+        category_close = get_time_of_day_category(dt_market_close)
+        assert category_close == 'normal'  # Not 'closing' (fixed bug)
+
+    def test_price_exactly_at_band(self):
+        """Test price exactly at band edge."""
+        result = analyze_flash_crash_halt(
+            ticker='TEST',
+            reference_price=100.00,
+            actual_price=95.00,  # Exactly at 5% lower band
+            tier=1,
+            timestamp=datetime(2015, 8, 24, 10, 0, 0)
+        )
+        # Current behavior uses <= which triggers halt at exact band
+        assert result['halt_triggered'] is True
+        assert result['distance_from_band'] == pytest.approx(0.00)
+
+    def test_price_just_inside_band(self):
+        """Test price just inside band (no halt)."""
+        result = analyze_flash_crash_halt(
+            ticker='TEST',
+            reference_price=100.00,
+            actual_price=95.01,  # Just inside 5% lower band
+            tier=1,
+            timestamp=datetime(2015, 8, 24, 10, 0, 0)
+        )
+        assert result['halt_triggered'] is False
+        assert result['distance_from_band'] > 0
+
+
+class TestInputValidation:
+    """Test input validation and error handling."""
+
+    def test_negative_reference_price_raises_error(self):
+        """Test that negative reference price raises ValueError."""
+        with pytest.raises(ValueError, match="reference_price must be positive"):
+            calculate_luld_bands(-10.00, tier=1)
+
+    def test_zero_reference_price_raises_error(self):
+        """Test that zero reference price raises ValueError."""
+        with pytest.raises(ValueError, match="reference_price must be positive"):
+            calculate_luld_bands(0.00, tier=1)
+
+    def test_invalid_tier_raises_error(self):
+        """Test that invalid tier raises ValueError."""
+        with pytest.raises(ValueError, match="tier must be 1 or 2"):
+            calculate_luld_bands(100.00, tier=5)
+
+    def test_invalid_time_of_day_raises_error(self):
+        """Test that invalid time_of_day raises ValueError."""
+        with pytest.raises(ValueError, match="time_of_day must be"):
+            calculate_luld_bands(100.00, tier=1, time_of_day='morning')
+
+    def test_negative_leverage_raises_error(self):
+        """Test that negative leverage raises ValueError."""
+        with pytest.raises(ValueError, match="leverage must be in"):
+            calculate_luld_bands(100.00, tier=1, leverage=-1.0)
+
+    def test_zero_leverage_raises_error(self):
+        """Test that zero leverage raises ValueError."""
+        with pytest.raises(ValueError, match="leverage must be in"):
+            calculate_luld_bands(100.00, tier=1, leverage=0.0)
+
+    def test_excessive_leverage_raises_error(self):
+        """Test that excessive leverage (>3x) raises ValueError."""
+        with pytest.raises(ValueError, match="leverage must be in"):
+            calculate_luld_bands(100.00, tier=1, leverage=5.0)
+
+
+class TestLeveragedETPs:
+    """Additional tests for leveraged ETPs."""
+
+    def test_leveraged_etp_3x_closing(self):
+        """Test 3x leveraged ETP during closing (bands tripled, then doubled for closing)."""
+        lower, upper, pct = calculate_luld_bands(
+            100.00, tier=1, time_of_day='closing', leverage=3.0
+        )
+        assert lower == pytest.approx(70.00)  # 5% * 2 (closing) * 3 (leverage) = 30%
+        assert upper == pytest.approx(130.00)
+        assert pct == pytest.approx(0.30)
+
+    def test_leveraged_etp_maximum_3x(self):
+        """Test 3x leveraged ETP (maximum allowed leverage)."""
+        lower, upper, pct = calculate_luld_bands(
+            100.00, tier=1, time_of_day='normal', leverage=3.0
+        )
+        assert lower == pytest.approx(85.00)  # 5% * 3 = 15%
+        assert upper == pytest.approx(115.00)
+        assert pct == pytest.approx(0.15)
