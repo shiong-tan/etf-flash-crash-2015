@@ -75,7 +75,7 @@ class TestSpreadCalculations:
         book.add_ask(100.10, 500)
 
         spread = book.get_spread()
-        assert spread == 0.10
+        assert abs(spread - 0.10) < 0.001  # Allow floating point error
 
     def test_get_spread_bps(self):
         """Calculate spread in basis points"""
@@ -105,12 +105,11 @@ class TestMarketOrders:
 
         fills = book.execute_market_buy(400)
 
-        assert len(fills) == 2
-        # First 500 shares at 101, then 0 at 102 (only took 400 total)
-        # Wait, actually it should take all 500 from first level? No, only 400
+        assert len(fills) == 1  # Only 1 fill - 400 shares at 101.0
         assert fills[0] == (101.0, 400)
-        assert len(book.asks) == 1  # Second level remains
-        assert book.asks[0].price == 102.0
+        assert len(book.asks) == 2  # Both levels remain
+        assert book.asks[0].size == 100  # 500 - 400 remaining at first level
+        assert book.asks[1].price == 102.0  # Second level untouched
 
     def test_execute_market_sell_single_level(self):
         """Market sell consuming single bid level"""
@@ -162,7 +161,8 @@ class TestMarketOrders:
         avg_price = total_value / total_shares
 
         # Average should be well below $100
-        assert avg_price < 97.0
+        # Calculation: (500*100 + 300*99 + 200*90) / 1000 = 97.7
+        assert avg_price < 98.0
 
     def test_execute_market_buy_insufficient_liquidity(self):
         """Market buy with insufficient liquidity should raise error"""

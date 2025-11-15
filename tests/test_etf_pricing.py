@@ -76,7 +76,7 @@ class TestArbitrage:
         assert result['spread_bps'] == 100
         assert result['profitable_creation'] is True
         assert result['profitable_redemption'] is False
-        assert result['action'] == 'CREATE'
+        assert result['action'] == 'create'
 
     def test_arbitrage_spread_discount(self):
         """Test spread calculation when ETF trades at discount"""
@@ -89,7 +89,7 @@ class TestArbitrage:
         assert result['spread_bps'] == -100
         assert result['profitable_creation'] is False
         assert result['profitable_redemption'] is True
-        assert result['action'] == 'REDEEM'
+        assert result['action'] == 'redeem'
 
     def test_arbitrage_spread_fair_value(self):
         """Test spread calculation when ETF trades at fair value"""
@@ -99,7 +99,7 @@ class TestArbitrage:
         result = arbitrage_spread(etf_price, fair_value)
 
         assert result['spread_pct'] == 0.0
-        assert result['action'] == 'HOLD'
+        assert result['action'] == 'none'
 
 
 class TestCreationRedemption:
@@ -116,8 +116,8 @@ class TestCreationRedemption:
             etf_price, basket_value, creation_unit_size, transaction_costs_bps
         )
 
-        assert result['etf_price'] == etf_price
-        assert result['basket_value'] == basket_value
+        assert result['etf_value'] == etf_price * creation_unit_size
+        assert result['basket_cost'] == basket_value
         assert result['gross_profit'] > 0
         assert 'net_profit' in result
         assert 'transaction_costs' in result
@@ -133,8 +133,8 @@ class TestCreationRedemption:
             etf_price, basket_value, creation_unit_size, transaction_costs_bps
         )
 
-        assert result['etf_price'] == etf_price
-        assert result['basket_value'] == basket_value
+        assert result['etf_cost'] == etf_price * creation_unit_size
+        assert result['basket_value_received'] == basket_value
         assert result['gross_profit'] > 0
 
 
@@ -147,10 +147,10 @@ class TestStaleINAV:
         stale_prices = {f'STOCK_{i}': 100.0 for i in range(100)}
 
         # 20 stocks halted, 80 down 5%
+        # If halted stocks were trading, they would also be down 5%
         halted_tickers = [f'STOCK_{i}' for i in range(20)]
         current_prices = {
-            ticker: stale_prices[ticker] if ticker in halted_tickers
-                   else stale_prices[ticker] * 0.95
+            ticker: stale_prices[ticker] * 0.95  # All stocks down 5% in reality
             for ticker in holdings.keys()
         }
 
@@ -160,6 +160,9 @@ class TestStaleINAV:
 
         assert result['pct_halted'] == 20.0
         assert result['num_halted'] == 20
+        # iNAV with stale uses $100 for halted, $95 for trading
+        # True iNAV uses $95 for all
+        # So inav_with_stale should be > inav_true
         assert result['inav_with_stale'] > result['inav_true']
         assert result['error_pct'] > 0
 

@@ -42,7 +42,7 @@ def calculate_nav(
         7.5
     """
     if shares_outstanding <= 0:
-        raise ValueError("shares_outstanding must be positive")
+        raise ValueError("shares_outstanding must be greater than zero")
 
     if not holdings:
         raise ValueError("holdings dictionary cannot be empty")

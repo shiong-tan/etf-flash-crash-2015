@@ -1,10 +1,30 @@
 # ETF Flash Crash 2015 – Educational Repository
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shiong-tan/etf-flash-crash-2015/blob/master/notebooks/01-understanding-the-crash.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yourusername/etf-flash-crash-2015/blob/master/notebooks/core/01-understanding-the-crash.ipynb)
 
-A comprehensive learning resource explaining the ETF Flash Crash of August 24, 2015, when exchange-traded funds experienced catastrophic price dislocations despite functioning markets for their underlying securities.
+A comprehensive, production-ready learning resource explaining the ETF Flash Crash of August 24, 2015, when exchange-traded funds experienced catastrophic price dislocations despite functioning markets for their underlying securities.
 
 **Try it now in Google Colab** - Click the badge above to open the interactive notebook directly in your browser (no installation required!)
+
+---
+
+## 🎯 Quick Start
+
+### Choose Your Learning Track:
+
+**👥 Core Track** (3-5 hours) - ✅ Production Ready
+- For students, educators, finance professionals
+- Interactive Python notebooks + comprehensive guides
+- Real market data analysis
+- No advanced math required
+
+**🎓 Extensions Track** (10-15 hours) - ⚠️ Work in Progress
+- For quants, researchers, graduate students
+- Advanced market microstructure
+- Requires completing Core Track first
+- Some notebooks need API corrections
+
+**→ [Full Learning Path Guide](LEARNING_PATH.md)**
 
 ---
 
@@ -12,278 +32,437 @@ A comprehensive learning resource explaining the ETF Flash Crash of August 24, 2
 
 On August 24, 2015, **302 of 1,569 ETFs triggered circuit breakers**, creating price dislocations so severe that major S&P 500 ETFs traded at discounts exceeding 40% while their underlying stocks fell only 3-5%. The event exposed critical vulnerabilities in ETF market structure and revealed how supposedly protective mechanisms can amplify rather than dampen crises.
 
-### Key Facts
+### Shocking Examples
+
+| ETF | Assets | Strategy | Crash | Underlying |
+|-----|--------|----------|-------|------------|
+| **SPLV** | $5.8B | "Low Volatility" | **-46.4%** | -3.5% |
+| **RSP** | $9.5B | Equal-Weight S&P 500 | -43.0% | -4.0% |
+| **DVY** | $16.5B | Dividend Focus | -35.0% | -4.5% |
+| **IVV** | $73B | S&P 500 | -16.1% | -4.0% |
+| **SPY** | $185B | S&P 500 (same index!) | -8.1% | -4.0% |
+
+**The Ultimate Irony**: The "Low Volatility" ETF (SPLV) was the **most volatile** security during the crash.
+
+### Key Statistics
 
 - **1,278 trading halts** across 471 securities in the first hour
-- **RSP** (S&P 500 Equal Weight ETF, $9.5B AUM): Crashed from $76 to **$43.77** (43% decline) while underlying index fell only 4%
-- **IVV** ($65B) and **SPY** tracked the same S&P 500 index but showed a **349-point discrepancy** at their lows
-- Stop-loss orders executed **20-40% below trigger prices**, turning "protection" into devastation
-- Market makers withdrew liquidity when hedging became impossible, amplifying the crisis
-- Conservative "low volatility" products experienced the most extreme volatility
+- Stop-loss orders executed **20-40% below trigger prices**
+- **$27.23 gap** between RSP price ($43.77) and iNAV ($71.00)
+- Market makers withdrew when **60% of components** were halted (couldn't hedge)
+- **IVV vs SPY divergence**: Same holdings, 8% different outcomes due to liquidity
 
 ---
 
-## What You'll Learn
+## 📚 What You'll Learn
 
-This repository provides a structured learning path through the event, its causes, and its implications:
+### Core Track (Production-Ready ✅)
 
-### Market Structure Fundamentals
-- How ETFs actually work (NAV vs iNAV, creation/redemption mechanism)
-- Market maker role and fair value determination
+#### Market Structure Fundamentals
+- How ETFs actually work (NAV vs iNAV, creation/redemption)
+- Market maker role and liquidity provision
 - Order types and their behavior during volatility
 - Limit Up-Limit Down (LULD) circuit breakers
 
-### The Event Itself
-- Chronological timeline of August 24, 2015
-- Why ETFs traded 30-40% below fair value
-- Case studies: RSP dislocation and retail stop-loss failures
-- Who was affected and how
+#### The Event Itself
+- Minute-by-minute timeline of August 24, 2015
+- Why ETFs traded 30-40% below fair value despite accurate iNAV
+- **New Case Studies**:
+  - **DVY**: How "defensive" dividend ETF crashed 35%
+  - **SPLV**: The "low volatility" -46% paradox
+  - **SPY vs IVV**: Why liquidity matters more than fees
+  - **RSP**: 43% crash with 500 stocks down only 4%
 
-### Market Maker Perspective
-- Jane Street's role and competitive position
-- Why hedging became impossible during the crisis
-- How LULD circuit breakers constrained market-making
-- Why liquidity vanished when most needed
+#### Hands-On Analysis
+- ✅ Calculate NAV and iNAV for ETFs
+- ✅ Simulate order book dynamics
+- ✅ Analyze stop-loss cascades with real data
+- ✅ Compare order type outcomes
+- ✅ Portfolio stress testing
 
-### Aftermath and Lessons
-- Limited regulatory response (Amendments 10 and 12 to LULD)
-- Broker improvements and client education
-- Lasting lessons for investors and market structure
-- Why another flash crash remains possible
+#### Lessons & Implications
+- Why stop-loss orders backfired
+- Liquidity premium quantified (400× expense ratio difference)
+- Market structure vs individual failures
+- How to protect portfolios
 
----
+### Extensions Track (Advanced - ⚠️ WIP)
 
-## Learning Path
+#### Market Maker Economics
+- P&L calculation and inventory management
+- Hedging strategies and VaR analysis
+- Capital requirements
+- Break-even spread calculations
 
-This repository is designed for sequential learning. Start at the beginning and work through each section:
+#### Liquidity Microstructure
+- Kyle's lambda (price impact)
+- Amihud illiquidity measure
+- Order flow toxicity
+- Market impact models
 
-### 1. **Start Here: Background** (`guide/01-background/`)
-Learn the foundational concepts you'll need to understand what went wrong.
-
-- **[What Are ETFs?](guide/01-background/what-are-etfs.md)** – NAV vs iNAV, dual market structure, creation units
-- **[Order Types Explained](guide/01-background/order-types.md)** – Market, limit, stop-loss, and their behavior during gaps
-- **[LULD Mechanism](guide/01-background/luld-mechanism.md)** – Circuit breakers, price bands, trading halts
-- **[How Market Makers Work](guide/01-background/how-market-makers-work.md)** – Fair value pricing, hedging, arbitrage
-
-### 2. **The Story: What Happened** (`guide/02-the-event/`)
-Follow the chronological narrative of August 24, 2015.
-
-- **[Timeline](guide/02-the-event/timeline.md)** – Hour-by-hour breakdown from pre-open through recovery
-- **[Pre-Crash Conditions](guide/02-the-event/pre-crash-conditions.md)** – Futures limit down, Rule 48, order buildup
-- **[Opening Chaos](guide/02-the-event/opening-chaos.md)** – 1,278 halts, staggered openings, algorithmic breakdown
-- **[Who Was Affected](guide/02-the-event/who-was-affected.md)** – Retail investors, advisors, market makers, institutions
-
-### 3. **Deep Dive: Why It Happened** (`guide/03-deep-dive/`)
-Understand the technical mechanisms that caused the dislocations.
-
-- **[NAV Disconnect](guide/03-deep-dive/nav-disconnect.md)** – Why ETFs traded 38% below fair value
-- **[Case Study: RSP](guide/03-deep-dive/case-study-rsp.md)** – $76 → $43.77: 10 halts in one hour
-- **[Case Study: Retail Stop-Loss](guide/03-deep-dive/case-study-retail.md)** – How "protection" became catastrophe
-
-### 4. **Inside View: Market Makers** (`guide/04-market-maker-perspective/`)
-See the crisis from the perspective of firms providing liquidity.
-
-- **[Jane Street Overview](guide/04-market-maker-perspective/jane-street-overview.md)** – 14% ETF volume, $41.6B capital, OCaml
-- **[Role of Market Makers](guide/04-market-maker-perspective/role-of-market-makers.md)** – Continuous quoting, hedging, creation/redemption
-- **[Hedging Under Stress](guide/04-market-maker-perspective/hedging-under-stress.md)** – Why RSP at $50 vs $71 wasn't arbitrage
-- **[LULD from MM View](guide/04-market-maker-perspective/luld-from-mm-view.md)** – How circuit breakers prevented hedging
-
-### 5. **Aftermath: What Changed (and Didn't)** (`guide/05-aftermath/`)
-Examine the response and ongoing vulnerabilities.
-
-- **[Regulatory Changes](guide/05-aftermath/regulatory-changes.md)** – Limited SEC response, Amendments 10 & 12
-- **[Broker Reforms](guide/05-aftermath/broker-reforms.md)** – Order handling improvements, education campaigns
-- **[Lasting Lessons](guide/05-aftermath/lasting-lessons.md)** – What we learned and what remains unfixed
-
-### 6. **Hands-On: Interactive Exercises** (`notebooks/`)
-Apply concepts through interactive Jupyter notebooks.
-
-- **[01-understanding-the-crash.ipynb](notebooks/01-understanding-the-crash.ipynb)** – Conceptual walkthrough
-  - ETF pricing fundamentals (NAV vs iNAV)
-  - Order book air pockets and stop-loss cascades
-  - Educational simulations with synthetic data
-  - LULD circuit breaker mechanics
-  - **[▶️ Open in Colab](https://colab.research.google.com/github/shiong-tan/etf-flash-crash-2015/blob/master/notebooks/01-understanding-the-crash.ipynb)** (no installation required!)
-
-- **[02-real-market-data-analysis.ipynb](notebooks/02-real-market-data-analysis.ipynb)** – Data-driven investigation ⭐ NEW!
-  - **Real Aug 24, 2015 prices** from Yahoo Finance
-  - Validate the event with actual historical data
-  - Analyze recent intraday volatility patterns
-  - Compare to COVID crash and SVB crisis
-  - Interactive exploration tools
-  - **[▶️ Open in Colab](https://colab.research.google.com/github/shiong-tan/etf-flash-crash-2015/blob/master/notebooks/02-real-market-data-analysis.ipynb)** (no installation required!)
+#### Research Topics
+- Adverse selection modeling
+- Inventory optimization (Avellaneda-Stoikov)
+- Contagion analysis
+- Alternative circuit breaker designs
 
 ---
 
-## Installation
+## 🚀 Getting Started
 
-### Reading the Documentation
-No installation needed! Simply browse the `guide/` directory in order.
+### Installation
 
-### Running Interactive Notebooks
-
-#### Option 1: Google Colab (Easiest - No Installation!)
-
-Click the badge below to open the notebook directly in your browser—no installation required!
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shiong-tan/etf-flash-crash-2015/blob/master/notebooks/01-understanding-the-crash.ipynb)
-
-**What happens automatically:**
-- ✅ Clones the repository
-- ✅ Installs all dependencies (pandas, numpy, matplotlib, seaborn)
-- ✅ Sets up the correct paths
-- ✅ Imports all modules
-- ✅ Ready to run in 30 seconds!
-
-**How to use:**
-1. Click the badge above
-2. In Colab, click **"Runtime → Run all"**
-3. Watch the setup cell configure everything
-4. Explore the interactive examples!
-
-No Google account required to view, but you'll need one to run cells and experiment.
-
-#### Option 2: Local Jupyter Environment
-
-**Requirements:**
-- Python 3.8 or higher
-- Jupyter Notebook
-- Libraries: numpy, pandas, matplotlib, seaborn
-
-**Setup:**
+**Minimal (Core Track)**:
 ```bash
-# Clone the repository
-git clone https://github.com/shiong-tan/etf-flash-crash-2015.git
+git clone https://github.com/yourusername/etf-flash-crash-2015.git
 cd etf-flash-crash-2015
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Launch Jupyter
-jupyter notebook notebooks/01-understanding-the-crash.ipynb
 ```
 
-The setup cell automatically detects your environment and configures paths accordingly.
+**Full Experience (with visualizations)**:
+```bash
+pip install -r requirements-full.txt
+```
+
+**Google Colab** (no installation):
+- Click "Open in Colab" badges in notebooks
+- Automatic setup and dependency installation
+
+### First Steps
+
+**New to ETFs?** Start here:
+1. Read [`guide/01-background/what-are-etfs.md`](guide/01-background/what-are-etfs.md)
+2. Open [`notebooks/core/01-understanding-the-crash.ipynb`](notebooks/core/01-understanding-the-crash.ipynb)
+
+**Finance Professional?** Jump to:
+1. [`notebooks/core/03-hands-on-exercises.ipynb`](notebooks/core/03-hands-on-exercises.ipynb) (portfolio analysis)
+2. Case studies in [`guide/03-deep-dive/`](guide/03-deep-dive/)
+
+**Researcher/Quant?** Complete Core Track, then:
+1. Review [`notebooks/extensions/README.md`](notebooks/extensions/README.md)
+2. Study source code: [`src/market_maker_pnl.py`](src/market_maker_pnl.py)
 
 ---
 
-## Repository Structure
+## 📖 Repository Structure
 
 ```
 etf-flash-crash-2015/
-├── README.md                          # You are here
-├── requirements.txt                   # Python dependencies
 │
-├── guide/                             # Educational documentation
-│   ├── 01-background/                 # ETF mechanics, order types, LULD
-│   ├── 02-the-event/                  # Timeline and what happened
-│   ├── 03-deep-dive/                  # Technical analysis, case studies
-│   ├── 04-market-maker-perspective/   # Jane Street and liquidity provision
-│   └── 05-aftermath/                  # Reforms and lasting lessons
+├── 📓 notebooks/              # Interactive Jupyter notebooks
+│   ├── core/                 # ✅ General learners (PRODUCTION-READY)
+│   │   ├── 01-understanding-the-crash.ipynb
+│   │   ├── 02-real-market-data-analysis.ipynb
+│   │   └── 03-hands-on-exercises.ipynb  ← Start here!
+│   │
+│   ├── extensions/           # ⚠️ Advanced (NEEDS WORK)
+│   │   ├── 01-market-maker-simulation.ipynb (API corrections needed)
+│   │   ├── 02-liquidity-microstructure.ipynb (planned)
+│   │   └── 03-research-questions.ipynb (planned)
+│   │
+│   └── solutions/            # Exercise solutions
+│       ├── core/
+│       └── extensions/
 │
-├── notebooks/                         # Interactive Jupyter exercises
-│   ├── 01-understanding-the-crash.ipynb      # Conceptual simulations
-│   └── 02-real-market-data-analysis.ipynb    # Real data analysis (yfinance)
+├── 📚 guide/                  # Comprehensive written guides
+│   ├── 01-background/        # ETFs, order types, LULD, market makers
+│   ├── 02-the-event/         # Timeline, pre-crash, opening chaos
+│   ├── 03-deep-dive/         # ✅ NEW CASE STUDIES
+│   │   ├── case-study-dvy.md          (Dividend ETF -35%)
+│   │   ├── case-study-splv.md         (Low-Vol -46% irony)
+│   │   ├── comparison-spy-ivv.md      (Liquidity premium)
+│   │   ├── case-study-rsp.md          (Equal-Weight -43%)
+│   │   └── nav-disconnect.md
+│   ├── 04-market-maker-perspective/
+│   └── 05-aftermath/         # Regulatory changes, lessons
 │
-├── assets/                            # Visual aids and data
-│   ├── charts/                        # SVG diagrams
-│   └── data/                          # Sample datasets
+├── 🐍 src/                    # Python modules (production-ready)
+│   ├── etf_pricing.py        # NAV/iNAV calculations
+│   ├── order_book.py         # Basic order book
+│   ├── order_book_dynamics.py  # Flash crash simulation (575 lines)
+│   ├── market_maker_pnl.py   # Market maker modeling (549 lines)
+│   └── visualization.py      # Plotting utilities
 │
-├── src/                               # Python utilities
-│   ├── etf_pricing.py                 # NAV/iNAV calculations
-│   ├── order_book.py                  # Order book simulation
-│   └── visualization.py               # Plotting helpers
+├── 🧪 tests/                  # Unit tests (108+ tests)
+│   ├── test_etf_pricing.py
+│   ├── test_order_book.py
+│   ├── test_order_book_dynamics.py
+│   └── test_market_maker_pnl.py
 │
-└── tests/                             # Unit tests
-    └── test_etf_pricing.py
+├── 📊 assets/data/            # Sample datasets
+│   ├── aug24_price_data.csv
+│   └── luld_halts.csv
+│
+├── 📋 LEARNING_PATH.md        # ✅ Comprehensive learning guide
+├── 🤝 CONTRIBUTING.md         # How to contribute (coming soon)
+└── 📄 requirements.txt        # Dependencies
 ```
 
 ---
 
-## Prerequisites
+## 🎓 Core Track: Complete Learning Path
 
-### Required Knowledge
-- Basic understanding of stock markets
-- Familiarity with how stocks trade
-- No prior ETF knowledge required (we'll teach you!)
+### Step 1: Background (45 minutes)
 
-### Optional but Helpful
-- Python programming (for interactive notebooks)
-- Basic statistics (for volatility analysis)
-- Financial market microstructure (we cover the essentials)
+**Essential Reading**:
+- **[What Are ETFs?](guide/01-background/what-are-etfs.md)** (10 min)
+  - NAV vs iNAV: Two ways to value an ETF
+  - Creation/redemption mechanism
+  - Why this matters for August 24
+
+- **[Order Types Explained](guide/01-background/order-types.md)** (12 min)
+  - Market vs limit orders
+  - Stop-loss orders: intended protection vs actual disaster
+  - Why stop-losses cascaded on August 24
+
+- **[How Market Makers Work](guide/01-background/how-market-makers-work.md)** (15 min)
+  - Continuous quoting and inventory management
+  - Hedging strategies
+  - Why they withdrew during the crash
+
+**Optional**:
+- [LULD Mechanism](guide/01-background/luld-mechanism.md) (8 min)
+
+### Step 2: Interactive Notebooks (2-3 hours)
+
+**Notebook 1: Understanding the Crash** (45-60 min)
+- [`notebooks/core/01-understanding-the-crash.ipynb`](notebooks/core/01-understanding-the-crash.ipynb)
+- ETF pricing mechanics
+- August 24 timeline simulation
+- Order book "air pockets"
+- Circuit breaker effects
+
+**Notebook 2: Real Market Data** (30-45 min)
+- [`notebooks/core/02-real-market-data-analysis.ipynb`](notebooks/core/02-real-market-data-analysis.ipynb)
+- Fetch actual August 24 data with yfinance
+- Compare to COVID crash, SVB crisis
+- Analyze volatility patterns
+
+**Notebook 3: Hands-On Exercises** ✅ (60-90 min)
+- [`notebooks/core/03-hands-on-exercises.ipynb`](notebooks/core/03-hands-on-exercises.ipynb)
+- **Status**: Production-ready, all APIs correct
+- 5 comprehensive exercises:
+  1. NAV/iNAV calculation (normal vs flash crash)
+  2. Order book simulation
+  3. Stop-loss cascade analysis
+  4. Arbitrage opportunity evaluation
+  5. Portfolio stress testing
+
+### Step 3: Deep Dive Case Studies (90 minutes)
+
+**Required Reading** (choose at least 2):
+
+**DVY (iShares Dividend ETF)** - [Read Case Study](guide/03-deep-dive/case-study-dvy.md)
+- $16.5B "defensive" dividend fund crashed 35%
+- Stop-loss massacre: 10% protection → 31% actual loss
+- Retail investor impact: $200-400M in losses from stops alone
+
+**SPLV (Low Volatility ETF)** - [Read Case Study](guide/03-deep-dive/case-study-splv.md)
+- Ultimate irony: "low volatility" mandate, 46% crash
+- Risk-averse investors suffered worst losses
+- Defensive positioning backfired spectacularly
+
+**SPY vs IVV Comparison** - [Read Analysis](guide/03-deep-dive/comparison-spy-ivv.md)
+- Same index (S&P 500), massively different outcomes
+- SPY: -8.1% | IVV: -16.1% (2× worse)
+- Liquidity premium: 400× more valuable than fee savings
+- Break-even: 40 years of fee savings = 1 flash crash spread cost
+
+**RSP (Equal-Weight S&P 500)** - [Read Case Study](guide/03-deep-dive/case-study-rsp.md)
+- 43% crash while 500 underlying stocks down only 4%
+- 10 LULD halts in one hour (2.29 minutes actual trading)
+- Why $27 arbitrage opportunity wasn't actionable
+
+### Step 4: Timeline & Aftermath (30 minutes)
+
+- **[August 24 Timeline](guide/02-the-event/timeline.md)** - Minute-by-minute breakdown
+- **[Lessons Learned](guide/05-aftermath/lessons-learned.md)** - What changed
+- **[Regulatory Response](guide/05-aftermath/regulatory-response.md)** - Limited reforms
 
 ---
 
-## Key Takeaways
+## 🔬 Extensions Track (For Quantitative Professionals)
 
-By the time you complete this repository, you'll understand:
+**Prerequisites**:
+- ✅ Complete Core Track
+- Python proficiency
+- Market microstructure knowledge
+- Statistics background
+
+### Available Resources
+
+**Production-Ready Python Modules**:
+- ✅ `market_maker_pnl.py` (549 lines) - P&L calculation, inventory management
+- ✅ `order_book_dynamics.py` (575 lines) - Flash crash simulation with LULD
+
+**Notebooks** (⚠️ Need Work):
+- ⚠️ `01-market-maker-simulation.ipynb` - API corrections needed
+- 🚧 `02-liquidity-microstructure.ipynb` - Planned
+- 🚧 `03-research-questions.ipynb` - Planned
+
+**Planned Modules** (🚧 Not Yet Implemented):
+- `src/extensions/adverse_selection.py` - Glosten-Milgrom, PIN
+- `src/extensions/inventory_optimization.py` - Avellaneda-Stoikov
+- `src/extensions/contagion_analysis.py` - CoVaR, network effects
+
+**Status**: Infrastructure ready, notebooks need development
+
+---
+
+## 💡 Key Insights & Takeaways
 
 ### For Investors
-- **Stop-loss orders = market orders** (no price protection after trigger)
-- **Always use limit orders** for ETFs, especially during volatility
-- **First/last 30 minutes** of trading day are most dangerous
-- **Size provides no protection** during market structure failures
-- **"Low volatility" labels** don't prevent dislocations
+
+1. **Stop-Loss Orders Are Dangerous in Gaps**
+   - DVY: 10% intended protection → 31% actual loss
+   - Use stop-limit orders or accept gap risk
+
+2. **Liquidity Premium > Expense Ratio**
+   - IVV saves 2 bps/year in fees
+   - But cost 8% extra in flash crash (400:1 ratio)
+   - Choose most liquid ETF in category
+
+3. **"Safe" Assets Aren't Safe During Structure Failure**
+   - SPLV ("low volatility"): -46%
+   - DVY ("defensive dividend"): -35%
+   - Market structure risk ≠ underlying asset risk
+
+4. **ETF Price ≠ Fair Value During Stress**
+   - RSP: $43.77 trading price vs $71 fair value
+   - Even $185B SPY had 3.2% NAV disconnect
+   - Size doesn't protect against dysfunction
 
 ### For Market Structure
-- **Voluntary liquidity provision** is fragile and withdraws under stress
-- **Circuit breakers** can amplify rather than dampen problems
-- **ETF price ≠ fair value** during crises, even for large mainstream products
-- **Multiple safeguards failing simultaneously** creates catastrophic outcomes
-- **Incremental improvements insufficient**; fundamental vulnerabilities remain
 
-### For The Future
-- **Another August 24 is possible** – same conditions could recur
-- **Education helps individuals** but can't fix systemic problems
-- **Prepare before crises**, not during them
-- **Understand the mechanics** to recognize warning signs
-- **Question assumptions** about market liquidity and safety
+5. **Liquidity is Voluntary and Conditional**
+   - Market makers withdrew when couldn't hedge
+   - Rational risk management, not predatory
+   - No obligation to provide liquidity during dysfunction
 
----
+6. **Circuit Breakers Can Amplify Crises**
+   - LULD prevented continuous trading
+   - Created information vacuum
+   - Stopped hedging, price discovery
 
-## Target Audience
+7. **iNAV Breaks Down When Components Halt**
+   - Stale prices from halted stocks
+   - "Garbage in, garbage out"
+   - Market makers correctly didn't trust it
 
-This resource is designed for:
-
-- **Retail investors** who use ETFs in their portfolios
-- **Financial advisors** who recommend ETFs to clients
-- **Finance students** studying market microstructure
-- **Quantitative researchers** interested in market failure modes
-- **Policymakers** evaluating regulatory responses
-- **Anyone curious** about how modern markets can break
-
-**Level:** Accessible to non-finance professionals, but comprehensive enough for experts.
+8. **Arbitrage Requires Hedging**
+   - Can't arb RSP at $43.77 if 60% of stocks halted
+   - "Free money" was unhedgeable speculation
+   - Rational to pass when risk unknowable
 
 ---
 
-## Data Sources and Accuracy
+## 📊 By the Numbers
 
-**Content is based on:**
-- SEC Division of Economic and Risk Analysis research note (December 2015)
-- Jane Street Capital public filings and interviews
-- Exchange data and regulatory documents
-- Academic research on the event
-- Industry expert analysis
+### Event Statistics
 
-**Approach:**
-- Historically accurate facts and figures
-- Real examples (IUSV, RSP, DVY, SPLV, IVV)
-- Simplified explanations without sacrificing technical accuracy
-- Concise, bullet-point focused presentation
+- **302 ETFs** triggered circuit breakers
+- **1,278 trading halts** in first hour
+- **$1.2+ trillion** in affected ETF assets
+- **5-30 seconds**: Average trading window between halts
+- **20-40%**: Typical stop-loss execution slippage
 
----
+### Educational Content
 
-## Quick Start
-
-**Ready to learn?**
-
-1. **Start with [What Are ETFs?](guide/01-background/what-are-etfs.md)** if you're new to ETFs
-2. **Jump to [Timeline](guide/02-the-event/timeline.md)** if you want the story first
-3. **Read [Lasting Lessons](guide/05-aftermath/lasting-lessons.md)** if you want practical takeaways immediately
-4. **Run notebooks** if you learn best by doing
-
-**No matter where you start, prepare to question assumptions about market safety and liquidity.**
+- **✅ 3 production-ready notebooks** (core track)
+- **✅ 18 comprehensive guide files** (25,000+ words)
+- **✅ 4 detailed case studies** (DVY, SPLV, SPY vs IVV, RSP)
+- **✅ 2 production-ready Python modules** (1,100+ lines)
+- **✅ 108+ unit tests** across 4 test files
+- **⚠️ 3 extensions notebooks** (need work)
+- **🚧 3 planned extension modules**
 
 ---
 
-*This repository is a comprehensive educational resource about a specific historical event. It is not financial advice.*
+## 🤝 Contributing
+
+We welcome contributions! The project is especially interested in:
+
+**High Priority**:
+- Fixing API usage in extensions notebooks
+- Implementing planned extension modules
+- Additional case studies (other ETFs, other countries)
+
+**Medium Priority**:
+- Improved visualizations
+- Additional exercises and solutions
+- Translation to other languages
+
+**See**: `CONTRIBUTING.md` (coming soon) for guidelines
+
+---
+
+## 📚 Academic References
+
+### Essential Reading
+
+1. **SEC (2015)** - "Research Note on August 24, 2015 Market Volatility"
+   - Official investigation and findings
+
+2. **Kyle (1985)** - "Continuous Auctions and Insider Trading"
+   - Market maker adverse selection
+
+3. **Amihud (2002)** - "Illiquidity and Stock Returns"
+   - Liquidity measurement
+
+4. **Glosten-Milgrom (1985)** - "Bid-Ask Spreads and Transaction Prices"
+   - Spread decomposition
+
+### Additional Resources
+
+- **Harris (2003)** - "Trading and Exchanges: Market Microstructure for Practitioners"
+- **O'Hara (1995)** - "Market Microstructure Theory"
+- **Cartea et al. (2015)** - "Algorithmic and High-Frequency Trading"
+
+---
+
+## 🙏 Acknowledgments
+
+This educational project synthesizes:
+- SEC research notes and regulatory filings
+- Academic market microstructure literature
+- Industry practitioner knowledge
+- Real market data from August 24, 2015
+
+All materials are provided for educational purposes.
+
+---
+
+## 📄 License
+
+[Specify license - MIT, Apache 2.0, Creative Commons, etc.]
+
+---
+
+## 📧 Contact & Support
+
+- **Issues**: [GitHub Issues](https://github.com/yourusername/etf-flash-crash-2015/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/etf-flash-crash-2015/discussions)
+- **Email**: [Your contact information]
+
+---
+
+## Citation
+
+```bibtex
+@software{etf_flash_crash_2015,
+  title = {ETF Flash Crash 2015: Educational Analysis},
+  author = {ETF Flash Crash Educational Project},
+  year = {2024},
+  url = {https://github.com/yourusername/etf-flash-crash-2015},
+  note = {Core Track: Production-ready educational materials for understanding
+          the August 24, 2015 ETF flash crash}
+}
+```
+
+---
+
+**Status**: Core Track production-ready ✅ | Extensions Track in development ⚠️
+
+**Last Updated**: November 2024
+
+**Start Learning**: [`notebooks/core/01-understanding-the-crash.ipynb`](notebooks/core/01-understanding-the-crash.ipynb) 🚀

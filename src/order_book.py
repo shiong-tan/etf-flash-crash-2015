@@ -5,7 +5,7 @@ Simulates order book mechanics to demonstrate how market orders execute during
 the August 24, 2015 flash crash, including "air pockets" and stop-loss cascades.
 """
 
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Dict
 from dataclasses import dataclass, field
 
 
@@ -17,9 +17,9 @@ class Order:
 
     def __post_init__(self):
         if self.price <= 0:
-            raise ValueError("Price must be positive")
+            raise ValueError("Price must be non-negative")
         if self.size <= 0:
-            raise ValueError("Size must be positive")
+            raise ValueError("Size must be greater than zero")
 
 
 class OrderBook:
@@ -174,19 +174,21 @@ class OrderBook:
 
         return fills
 
-    def execute_limit_buy(self, price: float, size: int) -> List[Tuple[float, int]]:
+    def execute_limit_buy(self, size: int, price: float) -> List[Tuple[float, int]]:
         """
         Execute a limit buy order (only at or below limit price).
 
         Unlike market orders, limit orders provide price protection.
-        May not fill entirely if price doesn't reach limit.
+        May not fill entirely if price doesn't reach limit. Unfilled
+        portion is added to the order book as a resting limit order.
 
         Args:
-            price: Maximum acceptable price
             size: Number of shares to buy
+            price: Maximum acceptable price
 
         Returns:
-            List of (price, quantity) tuples. May be empty if no fills.
+            List of (price, quantity) tuples showing executed fills.
+            May be empty if no fills. Unfilled portion is added to book.
         """
         if size <= 0 or price <= 0:
             raise ValueError("Size and price must be positive")
@@ -206,7 +208,10 @@ class OrderBook:
                 self.asks[0].size -= remaining
                 remaining = 0
 
-        # Unlike market orders, limit orders don't error on partial fills
+        # Add unfilled portion to book as resting limit order
+        if remaining > 0:
+            self.add_bid(price, remaining)
+
         return fills
 
     def get_best_bid(self) -> Optional[float]:
@@ -295,10 +300,11 @@ class OrderBook:
 
 
 def simulate_stop_loss_cascade(
-    initial_book: OrderBook,
-    stop_triggers: List[Tuple[float, int]],
-    initial_price: float
-) -> List[Tuple[float, float, int]]:
+    initial_price: float,
+    stop_levels: List[float],
+    order_sizes: List[int],
+    initial_book: Optional[OrderBook] = None
+) -> Dict:
     """
     Simulate a stop-loss cascade like August 24, 2015.
 
@@ -306,37 +312,103 @@ def simulate_stop_loss_cascade(
     progressively worse prices, and trigger more stops in a vicious cycle.
 
     Args:
-        initial_book: Starting order book state
-        stop_triggers: List of (trigger_price, size) for pending stop-losses
         initial_price: Starting market price
+        stop_levels: List of stop-loss trigger prices
+        order_sizes: List of order sizes for each stop level
+        initial_book: Optional order book. If None, creates realistic sparse book.
 
     Returns:
-        List of (trigger_price, execution_price, size) tuples showing
-        how each stop-loss executed below its trigger
+        Dict with keys:
+            - triggers: List of trigger prices
+            - executions: List of actual execution prices
+            - slippage: List of slippage amounts (trigger - execution)
+            - slippage_pct: List of slippage percentages
 
     Example:
-        Shows IUSV stop at $108.69 executing at $87.32 (20% worse than trigger)
+        >>> result = simulate_stop_loss_cascade(100.0, [99.0, 98.0], [500, 300])
+        >>> result['triggers']
+        [99.0, 98.0]
     """
-    # Sort stops by trigger price (highest first, will trigger first)
-    stops = sorted(stop_triggers, key=lambda x: x[0], reverse=True)
+    if len(stop_levels) != len(order_sizes):
+        raise ValueError("stop_levels and order_sizes must have same length")
 
+    # Create order book if not provided (sparse book with gaps)
+    if initial_book is None:
+        initial_book = OrderBook()
+        # Create sparse order book with limited depth and gaps
+        # This simulates the "air pockets" of August 24, 2015
+        # Limited liquidity at each level ensures price impact/slippage
+        initial_book.add_bid(initial_price - 1, 200)  # Limited depth
+        initial_book.add_bid(initial_price - 2, 150)
+        # Gap at initial_price - 3 (no bids)
+        initial_book.add_bid(initial_price - 4, 200)
+        initial_book.add_bid(initial_price - 5, 150)
+        # Gap at initial_price - 6
+        initial_book.add_bid(initial_price - 7, 200)
+        initial_book.add_bid(initial_price - 8, 150)
+        # Deeper levels with more gaps
+        initial_book.add_bid(initial_price - 10, 200)
+        initial_book.add_bid(initial_price - 12, 200)
+        initial_book.add_bid(initial_price - 15, 200)
+
+    # Combine and sort stops by trigger price (highest first)
+    stops = sorted(zip(stop_levels, order_sizes), key=lambda x: x[0], reverse=True)
+
+    triggers = []
     executions = []
+    slippage = []
+    slippage_pct = []
     current_price = initial_price
 
+    # Simulate initial sell pressure that starts the cascade
+    # If price is above highest stop, execute a small sell to trigger first stop
+    if stops and current_price > stops[0][0]:
+        # Execute small sell to drop price below first stop
+        try:
+            initial_sell_size = 100  # Small sell to start cascade
+            fills = initial_book.execute_market_sell(initial_sell_size)
+            if fills:
+                total_value = sum(price * qty for price, qty in fills)
+                total_qty = sum(qty for _, qty in fills)
+                current_price = total_value / total_qty
+        except ValueError:
+            pass  # Not enough liquidity for initial sell
+
+    cascade_started = False
+
     for trigger_price, size in stops:
-        if current_price <= trigger_price:
+        # Stop triggers if price is at or below trigger, OR if cascade has started
+        # (simulating panic/momentum selling where all stops fire once cascade begins)
+        should_trigger = current_price <= trigger_price or cascade_started
+
+        if should_trigger:
+            cascade_started = True  # Once started, all remaining stops trigger
             # Stop triggered, becomes market order
             try:
                 fills = initial_book.execute_market_sell(size)
+                if not fills:
+                    # No fills but no exception - shouldn't happen but check anyway
+                    break
+
                 # Calculate average execution price
                 total_value = sum(price * qty for price, qty in fills)
                 total_qty = sum(qty for _, qty in fills)
                 avg_price = total_value / total_qty
 
-                executions.append((trigger_price, avg_price, size))
+                triggers.append(trigger_price)
+                executions.append(avg_price)
+                slip = trigger_price - avg_price
+                slippage.append(slip)
+                slippage_pct.append((slip / trigger_price) * 100)
+
                 current_price = avg_price  # Update market price
-            except ValueError:
+            except ValueError as e:
                 # Ran out of liquidity (air pocket reached)
                 break
 
-    return executions
+    return {
+        'triggers': triggers,
+        'executions': executions,
+        'slippage': slippage,
+        'slippage_pct': slippage_pct
+    }

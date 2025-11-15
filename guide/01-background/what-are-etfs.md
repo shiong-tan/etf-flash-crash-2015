@@ -1,5 +1,17 @@
 # What Are ETFs?
 
+**Track**: [CORE] | **Difficulty**: ⭐ Beginner | **Reading Time**: 10-15 minutes
+
+**Prerequisites**: None - start here if you're new to ETFs
+
+**What You'll Learn**:
+- Exchange-Traded Fund basics
+- NAV vs iNAV (why this matters for the crash)
+- Creation/redemption mechanism
+- Dual market structure
+
+---
+
 ## Exchange-Traded Funds Basics
 - Investment fund that trades on stock exchanges like individual stocks
 - Holds basket of underlying securities (stocks, bonds, commodities)

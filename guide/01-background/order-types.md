@@ -1,5 +1,17 @@
 # Order Types Explained
 
+**Track**: [CORE] | **Difficulty**: ⭐⭐ Beginner-Intermediate | **Reading Time**: 8-12 minutes
+
+**Prerequisites**: Basic understanding of stocks
+
+**What You'll Learn**:
+- Market orders vs limit orders
+- Stop-loss orders (critical for understanding the crash)
+- How orders interact with order books
+- Why stop-losses cascaded on August 24
+
+---
+
 ## Market Orders
 **What they do:**
 - Execute immediately at best available price
